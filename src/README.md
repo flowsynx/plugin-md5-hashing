@@ -1,4 +1,4 @@
-# FlowSynx MD5 Hash Plugin – FlowSynx Platform Integration
+## FlowSynx MD5 Hash Plugin – FlowSynx Platform Integration
 
 The MD5 Hash Plugin is a secure, plug-and-play component for the FlowSynx engine. It enables the computation of MD5 hashes from text or binary data and is designed to seamlessly integrate into FlowSynx’s no-code/low-code automation workflows.
 
