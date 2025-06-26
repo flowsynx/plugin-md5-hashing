@@ -22,7 +22,7 @@ public class Md5HashingPlugin : IPlugin
                 Name = "Hahing.Md5",
                 CompanyName = "FlowSynx",
                 Description = Resources.PluginDescription,
-                Version = new PluginVersion(1, 0, 0),
+                Version = new PluginVersion(1, 1, 0),
                 Category = PluginCategory.Security,
                 Authors = new List<string> { "FlowSynx" },
                 Copyright = "© FlowSynx. All rights reserved.",
