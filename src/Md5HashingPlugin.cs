@@ -60,34 +60,40 @@ public class Md5HashingPlugin : IPlugin
         if (!_isInitialized)
             throw new InvalidOperationException($"Plugin '{Metadata.Name}' v{Metadata.Version} is not initialized.");
 
-        return Task.FromResult<object?>(ComputeHash(parameters));
+        var md5ComputedValue = ComputeHash(parameters);
+        var result = new PluginContext(Guid.NewGuid().ToString(), "Data")
+        {
+            Format = "Hashing",
+            Content = md5ComputedValue
+        };
+        return Task.FromResult<object?>(result);
     }
 
     private string ComputeHash(PluginParameters parameters)
     {
-        var inputParameter = parameters.ToObject<InputParameter>();
+        var inputParameter = parameters.ToObject<InputParameter>()
+                             ?? throw new ArgumentException("Invalid plugin parameters.");
 
-        byte[] inputBytes;
-
-        if (!string.IsNullOrEmpty(inputParameter.InputText))
-        {
-            inputBytes = Encoding.UTF8.GetBytes(inputParameter.InputText);
-        }
-        else if (inputParameter.InputBytes is { Length: > 0 })
-        {
-            inputBytes = inputParameter.InputBytes;
-        }
-        else
-        {
-            throw new ArgumentException("No valid input provided for MD5 hashing.");
-        }
+        byte[] inputBytes = inputParameter.InputText is { Length: > 0 }
+            ? Encoding.UTF8.GetBytes(inputParameter.InputText)
+            : inputParameter.InputBytes is { Length: > 0 }
+                ? inputParameter.InputBytes
+                : throw new ArgumentException("No valid input provided for MD5 hashing.");
 
         using var md5 = MD5.Create();
-        var hashBytes = md5.ComputeHash(inputBytes);
-        var hash = BitConverter.ToString(hashBytes).Replace("-", "").ToLowerInvariant();
+        byte[] hashBytes = md5.ComputeHash(inputBytes);
+        string hash = ConvertToHex(hashBytes);
 
         _logger?.LogInfo($"MD5 hash computed: {hash}");
 
         return hash;
+    }
+
+    private static string ConvertToHex(byte[] bytes)
+    {
+        var sb = new StringBuilder(bytes.Length * 2);
+        foreach (byte b in bytes)
+            sb.AppendFormat("{0:x2}", b);
+        return sb.ToString();
     }
 }
