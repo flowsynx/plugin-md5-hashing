@@ -12,28 +12,23 @@ public class Md5HashingPlugin : IPlugin
     private IPluginLogger? _logger;
     private bool _isInitialized;
 
-    public PluginMetadata Metadata
+    public PluginMetadata Metadata => new PluginMetadata
     {
-        get
-        {
-            return new PluginMetadata
-            {
-                Id = Guid.Parse("b5b25ec7-63e9-4f63-8d51-e5a299449321"),
-                Name = "Hahing.Md5",
-                CompanyName = "FlowSynx",
-                Description = Resources.PluginDescription,
-                Version = new PluginVersion(1, 1, 0),
-                Category = PluginCategory.Security,
-                Authors = new List<string> { "FlowSynx" },
-                Copyright = "© FlowSynx. All rights reserved.",
-                Icon = "flowsynx.png",
-                ReadMe = "README.md",
-                RepositoryUrl = "https://github.com/flowsynx/plugin-md5-hashing",
-                ProjectUrl = "https://flowsynx.io",
-                Tags = new List<string>() { "flowSynx", "hashing", "md5", "security" }
-            };
-        }
-    }
+        Id = Guid.Parse("b5b25ec7-63e9-4f63-8d51-e5a299449321"),
+        Name = "Hahing.Md5",
+        CompanyName = "FlowSynx",
+        Description = Resources.PluginDescription,
+        Version = new Version(1, 1, 1),
+        Category = PluginCategory.Security,
+        Authors = new List<string> { "FlowSynx" },
+        Copyright = "© FlowSynx. All rights reserved.",
+        Icon = "flowsynx.png",
+        ReadMe = "README.md",
+        RepositoryUrl = "https://github.com/flowsynx/plugin-md5-hashing",
+        ProjectUrl = "https://flowsynx.io",
+        Tags = new List<string>() { "flowSynx", "hashing", "md5", "security" },
+        MinimumFlowSynxVersion = new Version(1, 1, 1)
+    };
 
     public PluginSpecifications? Specifications { get; set; }
 
